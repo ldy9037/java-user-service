@@ -1,12 +1,9 @@
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-from user.views import UserViewSet
-
-router = routers.DefaultRouter()
-router.register('user',  UserViewSet)
+from user import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include(router.urls), name='index'),
+    path('user/', views.list_insert_users, name='index'),
 ]
