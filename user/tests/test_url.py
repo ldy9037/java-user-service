@@ -7,7 +7,7 @@ class UserTests(APITestCase):
     def test_create_user(self):
         
         url = reverse('list-insert-users')
-        data = {'email': 'ldy9037@naver.com', 'name': '이동열'}
+        data = {'email': 'ldy9037@naver.com', 'name': '이동열', 'nickname': 'hani_6_6'}
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(User.objects.count(), 1)
