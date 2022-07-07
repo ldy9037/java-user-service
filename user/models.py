@@ -13,3 +13,9 @@ class User(models.Model):
         null=False,
         validators=[validate_name]
     )
+
+    nickname = models.CharField(
+        max_length=30,
+        unique=True,
+        null=False
+    )
