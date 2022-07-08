@@ -1,10 +1,10 @@
 from django.urls import reverse
-import certification
 from rest_framework import status
 from rest_framework.test import APITestCase
 from certification.models import Certification
 from user.models import User
 from user_service import utils 
+from argon2 import PasswordHasher
 
 class CertificationTests(APITestCase):
     def test_request_cert_number(self):
@@ -35,16 +35,13 @@ class CertificationTests(APITestCase):
         self.assertTrue(certification.get().certified)
 
     def test_phone_number_already_exists(self):
-        url = reverse('list-insert-users')
-        data = {
-            'email': 'ldy9037@naver.com', 
-            'name': '이동열', 
-            'nickname': 'hani_6_6',
-            'phone_number': '010-5264-5565',
-            'password': "12345678"
-         }
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        User.objects.create(
+            email='ldy9037@naver.com', 
+            name='이동열', 
+            nickname='hani_6_6',
+            phone_number='010-5264-5565',
+            password=PasswordHasher().hash("!@#$12345d")
+        )
 
         url = reverse('request-certification-number')
         data = {
