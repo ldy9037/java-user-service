@@ -6,7 +6,7 @@ import certification.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('user/', user.views.list_insert_users, name='list-insert-users'),
+    path('user/', user.views.insert_users, name='insert-users'),
     path('count/<str:value>', user.views.count_users, name='count-users'),
     path('cert/', certification.views.request_certification_number, name='request-certification-number')
 ]
