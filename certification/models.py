@@ -4,7 +4,6 @@ from user_service import validators, utils
 class Certification(models.Model):
     phone_number = models.CharField(
         max_length=15,
-        unique=True,
         null=False,
         validators=[validators.validate_phone_number]
     )
