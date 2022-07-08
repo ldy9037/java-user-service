@@ -16,7 +16,6 @@ class User(models.Model):
 
     nickname = models.CharField(
         max_length=30,
-        unique=True,
         null=False
     )
 
