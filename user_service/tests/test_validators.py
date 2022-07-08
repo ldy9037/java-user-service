@@ -21,4 +21,12 @@ class UserTest(TestCase):
 
         with self.assertRaises(ValidationError):
             validators.validate_phone_number("01052645565")
+    
+    def test_password_validator(self):
+        validators.validate_password("!@#hdwdduf1234")
         
+        with self.assertRaises(ValidationError):
+            validators.validate_password("123455677")
+
+        with self.assertRaises(ValidationError):
+            validators.validate_password("!We21")
