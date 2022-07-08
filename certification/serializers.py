@@ -4,4 +4,4 @@ from .models import Certification
 class CertificationSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Certification
-        fields = ('id', 'phone_number')
+        fields = ('id', 'number', 'phone_number')
