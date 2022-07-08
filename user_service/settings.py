@@ -30,9 +30,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
     'user.apps.UserConfig',
     'certification.apps.CertificationConfig'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
+    )
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -105,3 +112,5 @@ AWS_CONFIG = {
     'AWS_SECRET_ACCESS_KEY': get_secret("AWS_SECRET_ACCESS_KEY"),
     'AWS_REGION': get_secret("AWS_REGION")
 }
+
+AUTHENTICATION_BACKENDS = ['user_service.backend.Backend']
