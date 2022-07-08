@@ -31,4 +31,8 @@ class User(models.Model):
         null=False
     )
 
+    is_active = models.BooleanField(
+        default=True
+    )
+
     
