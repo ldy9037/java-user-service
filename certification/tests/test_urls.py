@@ -1,4 +1,5 @@
 from django.urls import reverse
+import certification
 from rest_framework import status
 from rest_framework.test import APITestCase
 from certification.models import Certification
@@ -19,7 +20,20 @@ class CertificationTests(APITestCase):
         self.assertTrue(Certification.objects.get().ttl > utils.create_timestamp_ttl(0))
         self.assertIsNotNone(Certification.objects.get().number)
         self.assertIsNotNone(Certification.objects.get().created_at)
-        
+
+        data = {
+            'id': response.data['cert_id'],
+            'phone_number' : '010-5264-5565',
+            'number' : Certification.objects.get().number
+        }
+        response = self.client.patch(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['cert_id'], data['id'])
+        self.assertEqual(response.data['phone_number'], data['phone_number'])
+
+        certification = Certification.objects.filter(id=response.data['cert_id'])
+        self.assertTrue(certification.get().certified)
+
     def test_phone_number_already_exists(self):
         url = reverse('list-insert-users')
         data = {
