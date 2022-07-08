@@ -1,8 +1,6 @@
 from django.db import models
 from user_service import validators, utils
 
-
-
 class Certification(models.Model):
     phone_number = models.CharField(
         max_length=15,
@@ -12,16 +10,16 @@ class Certification(models.Model):
     )
 
     number = models.CharField(
+        blank=True,
         max_length=6,
-        null=False
+        default=utils.create_cert_number
     )
 
     ttl = models.IntegerField(
-        null=False,
         default=utils.create_timestamp_ttl(180)
     )
 
     created_at = models.DateTimeField(
-        null=False,
+        blank=True,
         auto_now_add=True
     )
