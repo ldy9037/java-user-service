@@ -1,5 +1,5 @@
 from django.db import models
-from .validators import validate_name, validate_phone_number
+from user_service.validators import validate_name, validate_phone_number
 
 class User(models.Model):
     email = models.EmailField(

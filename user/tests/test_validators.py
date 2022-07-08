@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.test import TestCase
-from user import validators
+from user_service import validators
 import re
 
 class UserTest(TestCase):
