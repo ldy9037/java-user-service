@@ -75,3 +75,18 @@ class UserTests(APITestCase):
         self.assertEqual(response.data['data']['user']['name'], '이동열')
         self.assertEqual(response.data['data']['user']['nickname'], 'hani_6_6')
         self.assertEqual(response.data['data']['user']['phone_number'], '010-5264-5565')
+
+    def test_find_password(self):
+        certification = Certification.objects.create(
+            phone_number = '010-5264-5565',
+            certified = True
+        )
+
+        url = reverse('find-password')
+        data = {
+            'phone_number': '010-5264-5565',
+            'plain_password': "!@#ldy12345",
+            'cert_id': certification.id
+         }
+        response = self.client.patch(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
