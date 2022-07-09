@@ -14,10 +14,10 @@ urlpatterns = [
     path('api/token/', TokenObtainPairView.as_view(), name='token-obtain-pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token-refresh'),
 
-    path('user/', user.views.insert_users, name='insert-users'),
-    path('user/<int:id>', user.views.get_user, name='get-users'),
-    path('count/<str:value>', user.views.count_users, name='count-users'),
-    path('password/', user.views.find_password, name='find-password'),
+    path('api/user/', user.views.insert_users, name='insert-users'),
+    path('api/user/<int:id>', user.views.get_user, name='get-users'),
+    path('api/count/<str:value>', user.views.count_users, name='count-users'),
+    path('api/password/', user.views.find_password, name='find-password'),
 
-    path('cert/', certification.views.request_certification_number, name='request-certification-number')
+    path('api/cert/', certification.views.request_certification_number, name='request-certification-number')
 ]
