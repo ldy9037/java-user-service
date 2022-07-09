@@ -1,7 +1,8 @@
 from django.db import models
 from user_service.validators import validate_name, validate_phone_number
+from django.contrib.auth.models import AbstractBaseUser
 
-class User(models.Model):
+class User(AbstractBaseUser):
     email = models.EmailField(
         max_length=254, 
         unique=True, 
@@ -34,5 +35,13 @@ class User(models.Model):
     is_active = models.BooleanField(
         default=True
     )
+
+    is_admin = models.BooleanField(
+        default=False
+    )
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['phone_number', 'name']
+    
 
     
