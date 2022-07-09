@@ -6,8 +6,8 @@ from django.db.models import Q
 from argon2 import PasswordHasher
 
 class Backend(BaseBackend):
-    def authenticate(self, request, username=None, password=None):
-        user = User.objects.filter(Q(email=username) | Q(phone_number=username))
+    def authenticate(self, request, email=None, password=None):
+        user = User.objects.filter(Q(email=email) | Q(phone_number=email))
 
         if user.count() and PasswordHasher().verify(user.get().password, password):
             return user.get()
