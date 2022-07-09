@@ -117,3 +117,10 @@ AWS_CONFIG = {
 }
 
 AUTHENTICATION_BACKENDS = ['user_service.backend.Backend']
+
+SIMPLE_JWT = {
+    'USER_ID_FIELD': 'email',
+    'USER_ID_CLAIM': 'email',
+}
+
+AUTH_USER_MODEL = 'user.User'
