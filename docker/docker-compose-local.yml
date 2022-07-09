@@ -1,0 +1,30 @@
+version: "3.7"
+services:
+  service:
+    image: nginx:latest
+    container_name: user-service
+    ports:
+      - "9000:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  api:
+    container_name: user-api
+    image: python:3.9.9-slim-buster
+    command:
+      - /bin/sh
+      - -c
+      - | 
+        cd /usr/src/
+        python -m venv venv
+        source ./venv/bin/activate
+        pip install --upgrade pip
+        pip install -r requirements.txt
+        gunicorn --workers=3 user_service.wsgi:application --bind 0.0.0.0:8000 --env DJANGO_SETTINGS_MODULE=user_service.settings --reload
+    volumes:
+      - ../:/usr/src/
+    expose:
+      - "8000"
