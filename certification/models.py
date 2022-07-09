@@ -18,8 +18,8 @@ class Certification(models.Model):
         default=utils.create_timestamp_ttl(180)
     )
 
-    certified = models.IntegerField(
-        default=0
+    certified = models.BooleanField(
+        default=False
     )
 
     created_at = models.DateTimeField(
