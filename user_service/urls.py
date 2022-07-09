@@ -15,6 +15,8 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token-refresh'),
 
     path('user/', user.views.insert_users, name='insert-users'),
+    path('user/<int:id>', user.views.get_user, name='get-users'),
+    
     path('count/<str:value>', user.views.count_users, name='count-users'),
     path('cert/', certification.views.request_certification_number, name='request-certification-number')
 ]
