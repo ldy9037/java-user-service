@@ -16,7 +16,7 @@ class AuthTests(APITestCase):
 
         url = reverse('token-obtain-pair')
         data = {
-            'username': 'ldy9037@naver.com',
+            'email': 'ldy9037@naver.com',
             'password': '!@#qwe123'
          }
         response = self.client.post(url, data, format='json')
