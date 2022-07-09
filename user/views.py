@@ -1,3 +1,4 @@
+from email import message
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -6,7 +7,7 @@ from .serializers import UserSerializer
 from .models import User
 from certification.models import Certification
 from argon2 import PasswordHasher
-from user_service.validators import validate_password
+from user_service.validators import validate_password, validate_phone_number
 
 @api_view(['POST'])
 def insert_users(request):
@@ -14,7 +15,7 @@ def insert_users(request):
         serializer = UserSerializer(data=request.data)
 
         if serializer.is_valid() and request.data['cert_id'] and request.data['plain_password']:
-            certification = Certification.objects.filter(id=request.data['cert_id'], phone_number=request.data['phone_number'], certified=1)
+            certification = Certification.objects.filter(id=request.data['cert_id'], phone_number=request.data['phone_number'], certified=True)
             validate_password(request.data['plain_password'])
 
             if certification.count():
@@ -52,4 +53,21 @@ def get_user(request, id):
 
         return Response(data, status.HTTP_200_OK)
     
+@api_view(['PATCH'])
+def find_password(request):
+    data = {'message': ""}
 
+    if request.method == 'PATCH':
+        
+        if request.data['cert_id'] and request.data['plain_password'] and request.data['phone_number']:
+            validate_password(request.data['plain_password'])
+            validate_phone_number(request.data['phone_number'])
+
+            certification = Certification.objects.filter(id=request.data['cert_id'], phone_number=request.data['phone_number'], certified=True)    
+
+            if certification.count():
+                password = PasswordHasher().hash(request.data['plain_password'])
+                User.objects.filter(phone_number=request.data['phone_number']).update(password=password)
+                
+                data['message'] = "정삭적으로 변경되었습니다."
+                return Response(data, status.HTTP_200_OK)    
