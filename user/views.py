@@ -11,6 +11,7 @@ from user_service.validators import validate_password, validate_phone_number
 
 @api_view(['POST'])
 def insert_users(request):
+    data = {'message': ''}
     if request.method == 'POST':
         serializer = UserSerializer(data=request.data)
 
@@ -22,8 +23,15 @@ def insert_users(request):
                 password = PasswordHasher().hash(request.data['plain_password'])
                 serializer.save()
                 User.objects.filter(id=serializer.data["id"]).update(password=password)
-                
-                return Response(serializer.data)    
+                data['message'] = "회원가입 되었습니다."
+                data['user'] = serializer.data
+                return Response(data, status=status.HTTP_201_CREATED)    
+            else:    
+                data['message'] = '휴대폰 번호 인증을 진행해주세요.'
+                return Response(data, status=status.HTTP_200_OK)
+        else:
+            data['message'] = "입력 정보가 유효하지 않습니다."
+            return Response(data, status=status.HTTP_400_BAD_REQUEST)        
     
 
 @api_view(['GET'])
