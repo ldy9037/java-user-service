@@ -23,7 +23,7 @@ class UserTests(APITestCase):
             'cert_id': certification.id
          }
         response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(User.objects.count(), 1)
         self.assertEqual(User.objects.get().email, 'ldy9037@naver.com')
         self.assertEqual(User.objects.get().name, '이동열')
