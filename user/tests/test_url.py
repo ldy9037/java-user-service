@@ -70,11 +70,11 @@ class UserTests(APITestCase):
 
         response = client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['data']['user']['id'], User.objects.get().id)
-        self.assertEqual(response.data['data']['user']['email'], 'ldy9037@naver.com')
-        self.assertEqual(response.data['data']['user']['name'], '이동열')
-        self.assertEqual(response.data['data']['user']['nickname'], 'hani_6_6')
-        self.assertEqual(response.data['data']['user']['phone_number'], '010-5264-5565')
+        self.assertEqual(response.data['user']['id'], User.objects.get().id)
+        self.assertEqual(response.data['user']['email'], 'ldy9037@naver.com')
+        self.assertEqual(response.data['user']['name'], '이동열')
+        self.assertEqual(response.data['user']['nickname'], 'hani_6_6')
+        self.assertEqual(response.data['user']['phone_number'], '010-5264-5565')
 
     def test_find_password(self):
         certification = Certification.objects.create(
