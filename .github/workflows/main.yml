@@ -35,7 +35,7 @@ jobs:
         }
         EOF
     - name: Run Mysql Container
-      uses: addnab/docker-run-actions@v3
+      uses: addnab/docker-run-action@v3
       with:
         image: mysql:5.7
         options: -v ${{ github.workspace }}/docker/mysql/default.cnf:/etc/mysql/conf.d/default.cnf -e MYSQL_ROOT_PASSWORD=2345678 -e MYSQL_DATABASE=user_service -p 3306:3306
