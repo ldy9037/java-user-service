@@ -77,3 +77,9 @@ def find_password(request):
                 
                 data['message'] = "정삭적으로 변경되었습니다."
                 return Response(data, status.HTTP_200_OK)  
+            else:
+                data['message'] = '휴대폰 번호 인증을 진행해주세요.'
+                return Response(data, status=status.HTTP_200_OK)
+        else:
+            data['message'] = '정확한 정보를 입력해주세요.'
+            return Response(data, status=status.HTTP_400_BAD_REQUEST)   
