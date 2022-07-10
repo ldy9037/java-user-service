@@ -75,7 +75,7 @@ def find_password(request):
                 password = PasswordHasher().hash(request.data['plain_password'])
                 User.objects.filter(phone_number=request.data['phone_number']).update(password=password)
                 
-                data['message'] = "정삭적으로 변경되었습니다."
+                data['message'] = "정상적으로 변경되었습니다."
                 return Response(data, status.HTTP_200_OK)  
             else:
                 data['message'] = '휴대폰 번호 인증을 진행해주세요.'
