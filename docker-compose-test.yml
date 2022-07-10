@@ -1,0 +1,38 @@
+version: "3.7"
+services:
+  service:
+    container_name: user-service
+    image: nginx:latest
+    ports:
+      - "9000:80"
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d
+    depends_on:
+      - api
+    restart: unless-stopped
+    networks:
+      test_bridge:
+
+  api:
+    container_name: user-api
+    image: python:3
+    command:
+      - /bin/sh
+      - -c
+      - | 
+        cd /usr/src/
+        pip install --upgrade pip
+        pip install -r requirements.txt
+        gunicorn --workers=3 user_service.wsgi:application --bind 0.0.0.0:8000 --env DJANGO_SETTINGS_MODULE=user_service.settings --reload
+    volumes:
+      - ./:/usr/src/
+    expose:
+      - "8000"
+    networks:
+      test_bridge:
+
+networks:
+  test_bridge:
+    ipam:
+      config:
+        - subnet: "172.30.0.0/24"
