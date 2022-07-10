@@ -36,7 +36,7 @@ jobs:
         -e MYSQL_DATABASE=user_service \
         --mount type=bind,source=${{ github.workspace }}/docker/mysql/default.cnf,target=/etc/mysql/conf.d/default.cnf \
         -p 3306:3306 \
-        --network user_service_test_bridge \
+        --network `echo ${PWD##*/}`_test_bridge \
         mysql:5.7
     - name: Sleep for Mysql Container
       run: sleep 30s
