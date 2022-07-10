@@ -39,6 +39,8 @@ jobs:
       with:
         image: mysql:5.7
         options: -v ${{ github.workspace }}/docker/mysql/default.cnf:/etc/mysql/conf.d/default.cnf -e MYSQL_ROOT_PASSWORD=${{ secrets.DB_PASSWORD }} -e MYSQL_DATABASE=user_service -p 3306:3306
+    - name: Sleep for Mysql Container
+      run: sleep 30s
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
