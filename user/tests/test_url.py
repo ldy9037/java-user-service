@@ -66,11 +66,11 @@ class UserTests(APITestCase):
         client = APIClient()
         client.credentials(HTTP_AUTHORIZATION='Bearer '+response.data['access'])
        
-        url = reverse('get-users', kwargs={'id': '1'})
+        url = reverse('get-users', kwargs={'id': User.objects.get().id})
 
         response = client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['data']['user']['id'], 1)
+        self.assertEqual(response.data['data']['user']['id'], User.objects.get().id)
         self.assertEqual(response.data['data']['user']['email'], 'ldy9037@naver.com')
         self.assertEqual(response.data['data']['user']['name'], '이동열')
         self.assertEqual(response.data['data']['user']['nickname'], 'hani_6_6')
