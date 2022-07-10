@@ -55,10 +55,8 @@ def get_user(request, id):
     if request.method == 'GET':
         serializer = UserSerializer(User.objects.filter(id=id).get())
 
-        data['data'] = {
-            'user': serializer.data
-        }
-
+        data['user'] = serializer.data
+    
         return Response(data, status.HTTP_200_OK)
     
 @api_view(['PATCH'])
@@ -78,4 +76,4 @@ def find_password(request):
                 User.objects.filter(phone_number=request.data['phone_number']).update(password=password)
                 
                 data['message'] = "정삭적으로 변경되었습니다."
-                return Response(data, status.HTTP_200_OK)    
+                return Response(data, status.HTTP_200_OK)  
