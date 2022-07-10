@@ -41,8 +41,11 @@ def request_certification_number(request):
                     data['message'] = "인증 되었습니다."
                     data['cert_id'] = certification.get().id
                     data['phone_number'] = certification.get().phone_number
+            else:
+                data['message'] = "인증 번호가 올바르지 않습니다."
 
-                    return Response(data, status=status.HTTP_200_OK)
+            return Response(data, status=status.HTTP_200_OK)
+            
     
         
         
