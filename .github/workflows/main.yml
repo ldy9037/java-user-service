@@ -36,11 +36,12 @@ jobs:
         EOF
     - name: Create Mysql Container
       run: |
-        docker run --name mysql \
-                  -e MYSQL_ROOT_PASSWORD=${{ secrets.DB_PASSWORD }} \
+        docker run --name mysql-t \
+                  -e MYSQL_ROOT_PASSWORD=2345678 \
                   -e MYSQL_DATABASE=user_service \
-                  -v ./docker/mysql/default.cnf:/etc/mysql/conf.d/default.cnf \
-                  mysql:5.7 
+                  -v `$(pwd)/docker/mysql/default.cnf`:/etc/mysql/conf.d/default.cnf \ 
+                  -p 3306:3306 \
+                  mysql:5.7
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
