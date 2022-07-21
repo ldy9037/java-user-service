@@ -84,7 +84,9 @@ DATABASES = {
         'PORT': get_secret("DB_PORT")
     }
 }
-
+# MinimumLengthValidator: password가 min_length보다 작으면 error
+# CommonPasswordValidator: 사람들이 가장 많이 사용하는 password 20000개 체크
+# NumericPasswordValidator: Password가 숫자로만 구성되어 있는지 체크
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',

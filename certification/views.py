@@ -7,6 +7,11 @@ from certification.models import Certification
 from user.models import User
 from certification import sms
 
+# 함수 형식 view로 POST, PATCH 동작 구현 
+# PATCH의 경우 인증체크
+# class 기반 view로 viewset을 사용해 깔끔하게 코드 구현 가능했을 것 같음.(perform_create, perform_update) 
+# serializer의 is_valid는 실패시 error속성을 사용할 수 있음. 해당 속성에는 유요하지 않은 필드에 대한 오류를 나열함. 이 속성을 사용해서 Response를 전달했으면 깔끔했겠음. 
+# 응답 데이터에 serializer를 활용하지 않았음. return data 구조도 개선 필요
 @api_view(['POST', 'PATCH'])
 def request_certification_number(request):
     data = {'message': ""}

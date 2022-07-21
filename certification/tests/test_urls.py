@@ -9,6 +9,8 @@ from argon2 import PasswordHasher
 class CertificationTests(APITestCase):
     def test_request_cert_number(self):
         
+        # 인증번호 요청에 대한 레코드가 잘 생성되었는지 검증하는 test code 
+        # 아쉬운 점은 count 체크 대신 response에서 받은 id로 레코드를 찾아와서 assert하는 로직을 구현했으면 더 좋았을 것 같음.
         url = reverse('request-certification-number')
         data = {
             'phone_number': '010-5264-5565' 
@@ -21,6 +23,7 @@ class CertificationTests(APITestCase):
         self.assertIsNotNone(Certification.objects.get().number)
         self.assertIsNotNone(Certification.objects.get().created_at)
 
+        # 전달받은 인증번호로 patch 요청해 인증 완료 처리를 검증하는 test code
         data = {
             'id': response.data['cert_id'],
             'phone_number' : '010-5264-5565',
@@ -35,6 +38,7 @@ class CertificationTests(APITestCase):
         self.assertTrue(certification.get().certified)
 
     def test_phone_number_already_exists(self):
+        # 휴대폰 중복체크 처리 검증을 위한 test code
         User.objects.create(
             email='ldy9037@naver.com', 
             name='이동열', 

@@ -8,6 +8,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # 저장소를 체크아웃 후 테스트를 진행하기 위해 secret 파일을 생성
+    # github.workspace 변수를 사용해 workspace에 절대경로로 접근
+    # docker compose 상에 subnet을 생성해 두었고 서브넷 CIDR 대역은 172.30.0.0/24임.
+    # DB Container는 이 서브넷을 사용하기 때문에 무조건 gateway 주소가 172.30.0.1임. 
     steps:
     - uses: actions/checkout@v3
     - name: Create Secret
@@ -29,6 +33,9 @@ jobs:
       uses: ndeloof/install-compose-action@v0.0.1
     - name: Python service up for Test
       run: docker-compose -f docker-compose-test.yml up -d
+      # DB Container를 실행함. 
+      # custom.cnf를 mount해서 적용했는데 custom.cnf에는 인코딩 설정과 외부 접근 설정정보가 포함되어 있음.
+      # docker compose로 network bridge 구성 시 현재 디렉토리 명이 이름 접두사가 됨. 그래서 ${PWD##*/}로 현재 디렉토리 명만 출력함.
     - name: Run Mysql Container
       run: |
         docker run --name mysql -d \
@@ -38,9 +45,15 @@ jobs:
         -p 3306:3306 \
         --network `echo ${PWD##*/}`_test_bridge \
         mysql:5.7
+    # Mysql Container 실행까지 9초 정도가 소요된다고 함. 넉넉하게 Sleep
     - name: Sleep for Mysql Container
       run: sleep 30s
+    # Django Container의 ID를 받아와서 exec로 테스트 명령어를 전달할 때 사용
     - name: Run Tests
       run: |
         PYTHON_API_ID=`docker ps --filter name=user-api --format "{{.ID}}"`
         docker exec --workdir /usr/src $PYTHON_API_ID python manage.py test
+
+# 테스트 시 docker 빌드를 하지 않는 이유는 Dockerfile 작성 전에 기한이 끝남. 
+# Dockerfile의 경우 compose 설정에서 mount 대신 copy만 하면 끝임. 
+# 테스트 실행은 아래랑 똑같이 ID 받아와서 exec로 실행시키면 됨.

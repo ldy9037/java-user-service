@@ -4,7 +4,9 @@ from user.models import User
 from argon2 import PasswordHasher
 
 class UserTest(TestCase):
-
+    
+    # user model의 유효성 검증 확인을 위한 test code
+    # 이 부분 역시 serializer test로 대체하면 좋을 듯
     def test_user_validation(self):
         user = User( 
             email = "ldy9037@naver.com", 

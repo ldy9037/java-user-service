@@ -5,6 +5,8 @@ from rest_framework.test import APITestCase
 from user.models import User
 
 class AuthTests(APITestCase):
+    # 로그인 후 토큰을 받는 테스트
+    # 토큰을 decode해서 claim값을 비교했으면 좋았겠음.
     def test_login(self):
         user = User.objects.create(
             email='ldy9037@naver.com',

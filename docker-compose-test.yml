@@ -3,6 +3,7 @@ services:
   service:
     container_name: user-service
     image: nginx:latest
+    # 어차피 앞에다가 로드밸런서를 붙일 것이기 때문에 포트가 중요하지는 않았음.
     ports:
       - "9000:80"
     volumes:
@@ -31,6 +32,9 @@ services:
     networks:
       test_bridge:
 
+# 같은 network bridge를 사용할 것이라면 그냥 IP를 지정하지 왜 DB gateway로 접근하나?
+# Mac이나 Windows에서는 docker가 별도의 가상머신에서 실행되기 때문에 Docker bridge driver의 네트워크가 일종의 하위네트워크 처럼 작동함.
+# 때문에 개발 시 Host Machine에서는 Port 기반으로 접근하였고 익숙함 때문에 이렇게 설정하였음. 
 networks:
   test_bridge:
     ipam:
