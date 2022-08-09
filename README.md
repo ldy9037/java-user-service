@@ -81,7 +81,7 @@ $ docker-compose -f docker-compose-test.yml up -d
 $ docker run --name mysql -d \
         -e MYSQL_ROOT_PASSWORD='<DB_PASSWORD>' \
         -e MYSQL_DATABASE=user_service \
-		--mount type=bind,source=`${pwd}`/docker/mysql/default.cnf,target=/etc/mysql/conf.d/default.cnf \
+		--mount type=bind,source=`pwd`/docker/mysql/default.cnf,target=/etc/mysql/conf.d/default.cnf \
 		-p 3306:3306 \
 		--network `echo ${PWD##*/}`_test_bridge \
         mysql:5.7 

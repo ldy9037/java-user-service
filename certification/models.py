@@ -15,7 +15,7 @@ class Certification(models.Model):
     )
 
     ttl = models.IntegerField(
-        default=utils.create_timestamp_ttl(180)
+        default=utils.create_timestamp_ttl
     )
 
     certified = models.BooleanField(
