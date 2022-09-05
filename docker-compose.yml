@@ -15,7 +15,7 @@ services:
 
   api:
     container_name: user-api
-    image: bind-web/user-service:${TAG:-latest}
+    image: bind-web/user-service:${TAG:-1.0.0}
     build:
       context: .
       dockerfile: Dockerfile
