@@ -19,8 +19,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command:
-      - gunicorn --workers=3 user_service.wsgi:application --bind 0.0.0.0:8000 --env DJANGO_SETTINGS_MODULE=user_service.settings --reload
+    command: gunicorn --workers=3 user_service.wsgi:application --bind 0.0.0.0:8000 --env DJANGO_SETTINGS_MODULE=user_service.settings --reload
     expose:
       - "8000"
     networks:
