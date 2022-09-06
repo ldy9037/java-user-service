@@ -31,7 +31,9 @@ jobs:
           type=semver,pattern={{version}}
 
     - name: Configure Docker
-      run: gcloud auth configure-docker --quiet
+      run: | 
+        gcloud auth configure-docker --quiet
+        echo ${{steps.meta.outputs.tags}}
 
     - uses: actions/checkout@v3
     - name: Create Secret
