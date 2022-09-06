@@ -48,7 +48,7 @@ jobs:
         EOF
     
     - name: Build Docker image
-      run: docker build . -t $IMAGE_NAME
+      run: docker build . -t $IMAGE_NAME${{steps.meta.outputs.tags}}
 
     - name: Docker Compose Setup
       uses: ndeloof/install-compose-action@v0.0.1
