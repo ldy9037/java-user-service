@@ -31,9 +31,7 @@ jobs:
           type=semver,pattern={{version}}
 
     - name: Configure Docker
-      run: | 
-        gcloud auth configure-docker --quiet
-        echo $IMAGE_NAME${{steps.meta.outputs.tags}}
+      run: gcloud auth configure-docker --quiet
 
     - uses: actions/checkout@v3
     - name: Create Secret
@@ -77,4 +75,4 @@ jobs:
         docker exec --workdir /usr/src $PYTHON_API_ID python manage.py test
     
     - name: GCR Push
-      run: docker push ${{steps.meta.outputs.tags}}
+      run: docker push $IMAGE_NAME${{steps.meta.outputs.tags}}
