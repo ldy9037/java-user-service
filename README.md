@@ -37,7 +37,6 @@ Django + rest_framework로 회원 서비스 구현
  - Mysql 5.7
  - Docker 20.10.14
  - docker-compose 1.29.2
- - AWS SNS (sms)
  - Github Actions
 
  Task 관리는 Github의 issues를 사용했습니다.
@@ -53,9 +52,6 @@ repository를 clone하고 repository root directory에 secret.json을 생성해�
 $ cat <<EOF > `${pwd}`secrets.json
 {
     "PYTHON_SECRET_KEY": "<PYTHON_SECRET_KEY>",
-    "AWS_ACCESS_KEY_ID": "<AWS_ACCESS_KEY_ID>",
-    "AWS_SECRET_ACCESS_KEY": "<AWS_SECRET_ACCESS_KEY>",
-    "AWS_REGION": "ap-northeast-1",
     
     "DB_USER": "root",
     "DB_PASSWORD": "<DB_PASSWORD>",
@@ -67,8 +63,6 @@ EOF
 | Key           |  Value   |
 | ------------- | -------- |
 | PYTHON_SECRET_KEY            | 메일로 전달해드린 값을 입력해주세요.  |
-| AWS_ACCESS_KEY_ID            | 메일로 전달해드린 값을 입력해주세요.  |
-| AWS_SECRET_ACCESS_KEY            | 메일로 전달해드린 값을 입력해주세요.  |
 | DB_PASSWORD            | 원하시는 값을 입력해주세요.  |
 
 secret 설정이 되었으니 docker container를 실행합니다.

@@ -114,12 +114,6 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AWS_CONFIG = {
-    'AWS_ACCESS_KEY_ID': get_secret("AWS_ACCESS_KEY_ID"),
-    'AWS_SECRET_ACCESS_KEY': get_secret("AWS_SECRET_ACCESS_KEY"),
-    'AWS_REGION': get_secret("AWS_REGION")
-}
-
 AUTHENTICATION_BACKENDS = ['user_service.backend.Backend']
 
 SIMPLE_JWT = {
