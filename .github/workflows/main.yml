@@ -7,29 +7,45 @@ on:
       - develop
 
 jobs:
-  build:
+  integration:
+    name: Setup Google Account
     runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: gcr.io/${{ secrets.GCP_APP_NAME }}
     steps:
+    - name: Login
+      uses: google-github-actions/setup-gcloud@v0
+      with:
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        service_account_email: ${{ secrets.GCP_EMAIL }}
+        service_account_key: ${{ secrets.GCP_CREDENTIALS }}
+    
+    - name: Configure Docker
+      run: gcloud auth configure-docker --quiet
+
     - uses: actions/checkout@v3
     - name: Create Secret
       run: |
         cat <<EOF > ${{ github.workspace }}/secrets.json
         {
             "PYTHON_SECRET_KEY": "${{ secrets.PYTHON_SECRET_KEY }}",
-            "AWS_ACCESS_KEY_ID": "${{ secrets.AWS_ACCESS_KEY_ID }}",
-            "AWS_SECRET_ACCESS_KEY": "${{ secrets.AWS_SECRET_ACCESS_KEY }}",
-            "AWS_REGION": "${{ secrets.AWS_REGION }}",
-            
+          
             "DB_USER": "root",
             "DB_PASSWORD": "${{ secrets.DB_PASSWORD }}",
             "DB_HOST": "172.30.0.1",
             "DB_PORT": "3306"
         }
         EOF
+    
+    - name: Build Docker image
+      run: docker build . -t $IMAGE_NAME
+
     - name: Docker Compose Setup
       uses: ndeloof/install-compose-action@v0.0.1
+
     - name: Python service up for Test
       run: docker compose -f docker-compose-dev.yml up -d
+
     - name: Run Mysql Container
       run: |
         docker run --name mysql -d \
@@ -39,9 +55,13 @@ jobs:
         -p 3306:3306 \
         --network `echo ${PWD##*/}`_test_bridge \
         mysql:5.7
+
     - name: Sleep for Mysql Container
-      run: sleep 30s
+      run: sleep 10s
+
     - name: Run Tests
       run: |
         PYTHON_API_ID=`docker ps --filter name=user-api --format "{{.ID}}"`
         docker exec --workdir /usr/src $PYTHON_API_ID python manage.py test
+    
+    - name: Push Docker $IMAGE_NAME
