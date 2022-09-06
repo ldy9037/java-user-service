@@ -64,4 +64,5 @@ jobs:
         PYTHON_API_ID=`docker ps --filter name=user-api --format "{{.ID}}"`
         docker exec --workdir /usr/src $PYTHON_API_ID python manage.py test
     
-    - name: Push Docker $IMAGE_NAME
+    - name: GCR Push
+      run: docker push $IMAGE_NAME
