@@ -28,7 +28,7 @@ jobs:
     - name: Docker Compose Setup
       uses: ndeloof/install-compose-action@v0.0.1
     - name: Python service up for Test
-      run: docker compose -f docker-compose.yml up -d
+      run: docker compose -f docker-compose-dev.yml up -d
     - name: Run Mysql Container
       run: |
         docker run --name mysql -d \
