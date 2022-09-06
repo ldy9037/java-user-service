@@ -1,10 +1,11 @@
 import boto3
 import logging
 
-from user_service.settings import AWS_CONFIG
+#from user_service.settings import AWS_CONFIG
 logger = logging.getLogger('pybo')
 
 def publish_message(phone_number, cert_number):
+    """
     client = boto3.client(
         "sns",
         aws_access_key_id=AWS_CONFIG['AWS_ACCESS_KEY_ID'],
@@ -23,3 +24,4 @@ def publish_message(phone_number, cert_number):
         raise
     else:
         return response
+    """
