@@ -24,8 +24,10 @@ jobs:
       uses: docker/metadata-action@v4
       with:
         images: |
-          name/app
+          $IMAGE_NAME
         tags: |
+          type=ref,event=branch
+          type=ref,event=pr
           type=semver,pattern={{version}}
 
     - name: Configure Docker
