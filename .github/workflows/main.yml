@@ -27,7 +27,7 @@ jobs:
           $IMAGE_NAME
         tags: |
           type=ref,event=branch
-          type=ref,event=pr
+          type=ref,event=tag
           type=semver,pattern={{version}}
 
     - name: Configure Docker
@@ -75,4 +75,4 @@ jobs:
         docker exec --workdir /usr/src $PYTHON_API_ID python manage.py test
     
     - name: GCR Push
-      run: docker push $IMAGE_NAME:${{steps.meta.outputs.tags}}
+      run: docker push ${{steps.meta.outputs.tags}}
